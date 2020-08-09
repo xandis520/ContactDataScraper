@@ -9,7 +9,7 @@ import re
 
 
 def google_web_page(phrase):
-    google_html = 'https://www.google.com/searwch?q='
+    google_html = 'https://www.google.com/search?q='
     start_url = google_html + phrase
     try:
         req = Request(start_url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -20,11 +20,9 @@ def google_web_page(phrase):
         webpage = web_byte.decode('utf-8')
         return webpage
     except HTTPError:
-        return(print(HTTPError))
+        print('Something went wrong - HTTP Error')
     except URLError:
         print('Page could not be found')
-    else:
-        print('It worked')
 
 
 def get_links(url):
@@ -37,13 +35,14 @@ def get_links(url):
                     u = urlparse(page[7:])
                     yield (u.scheme + '://' + u.netloc)
 
+
 if __name__ == "__main__":
     phrase = 'biura+architektoniczne+warszawa'
     webpage = google_web_page(phrase)
-    links = get_links(webpage)
-
-    for link in links:
-        print(link)
+    if webpage != None:
+        links = get_links(webpage)
+        for link in links:
+            print(link)
         # dodanie linku do listy ( bazy danych )
         # tworzy bazę danych na podstawie wpisanej kategorii np. biura architektoniczne łódź
         # sprawdza czy dany link widnieje już w bazie danych oraz czy nie jest na black liście:
