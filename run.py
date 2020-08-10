@@ -57,19 +57,6 @@ class GoogleSearch:
                 pass
         return pages_dict
 
-    def get_soup(self, url):
-        USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0"
-        MOBILE_USER_AGENT = "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"
-        headers = {"user-agent": USER_AGENT}
-        try:
-            req = requests.get(url, headers=headers)
-            if req.status_code == 200:
-                soup = BeautifulSoup(req.content, "html.parser")
-                return soup
-        except ConnectionError:
-            raise ConnectionError(
-                'Probably you have used incorrect link!')
-
 
 external_links_list = []
 page = GoogleSearch('biura architektoniczne warszawa')
