@@ -6,14 +6,14 @@ import pymysql
 
 
 class SqlDataManager:
-    def __init__(self, host='localhost', user='root', password='None', db='', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor):
+    def __init__(self, host='localhost', user='root', password="", db='', charset='utf8mb4'):
         self.connection = pymysql.connect(
             host=host,
             user=user,
-            password="",
+            password=password,
             database=db,
             charset=charset,
-            cursorclass=cursorclass,
+            cursorclass=pymysql.cursors.DictCursor,
         )
         self.cursor = self.connection.cursor()
 
@@ -55,21 +55,34 @@ class SqlDataManager:
             raise pymysql.err.ProgrammingError(
                 'You probably gave existing column name')
 
-    def add_url(self, database_name, table_name, url):
+    def add_urls(self, database_name, table_name, urls):
         self.connection.select_db(database_name)
-        sql_statement = f""
+        n = len(urls)
+        if n > 1:
+            values = ''
+            for index, url in enumerate(urls):
+                values += "('"+url+"')"
+                if index != n-1:
+                    values += ', '
+        else:
+            values = "('"+urls[0]+"')"
+
+        sql_statement = f"INSERT INTO {table_name} (`strona_internetowa`) VALUES {values};"
+        # sql_statement = "INSERT INTO `nazwy` (`strona_internetowa`) VALUES ('xyz'), ('cwede')"
+        # print(sql_statement)
         self.cursor.execute(sql_statement)
+        self.connection.commit()
 
 
 class BlackListManager:
-    def __init__(self, db, host='localhost', user='root', password='None', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor):
+    def __init__(self, db, host='localhost', user='root', password="", charset='utf8mb4'):
         self.connection = pymysql.connect(
             host=host,
             user=user,
-            password="",
+            password=password,
             database='',
             charset=charset,
-            cursorclass=cursorclass,
+            cursorclass=pymysql.cursors.DictCursor,
         )
         self.cursor = self.connection.cursor()
         if db != '':
@@ -81,7 +94,7 @@ class BlackListManager:
         self.cursor.execute(sql_statement)
 
     def create_table(self, table_name):
-        sql_statement = f"CREATE TABLE IF NOT EXISTS {table_name}(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255));"
+        sql_statement = f"CREATE TABLE IF NOT EXISTS '{table_name}'(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255));"
         self.cursor.execute(sql_statement)
 
 
@@ -118,9 +131,11 @@ columns = """(
 
 add_col = ('wlasciciel VARCHAR(40)', 'test VARCHAR(40)')
 column = 'test2 VARCHAR(40)'
-# database.create_database('testowa_baza_2')
+# database.create_database('baza_firm')
 # database.delete_database('baza_firm')
-# database.create_table('baza_firm', 'nazwy', columns)
+database.create_table('baza_firm', 'nazwy', columns)
 # database.add_columns('baza_firm', 'nazwy', columns)
 # database.add_column('baza_firm', 'nazwy', column)
 # database.delete_table('baza_firm', 'nazwy')
+urls = ['www.google.pl']
+database.add_urls('baza_firm', 'nazwy', urls)

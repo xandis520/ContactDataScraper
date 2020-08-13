@@ -1,4 +1,5 @@
 # Skrypt przeszukuje stronę w poszukiwaniu danych kontaktowych i innych
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import requests
 from requests import ConnectionError
@@ -22,15 +23,19 @@ class CompanyDataSearch:
                 'Probably you have used incorrect link!')
 
     def get_internal_links(self, bs_obj):
-        pass
+        for link in bs_obj.find_all("a"):
+            if 'href' in link.attrs:
+                if page_url in link.attrs['href']:
+                    internal_url = link.attrs['href']
+                    yield internal_url
+                elif link.attrs['href'].startswith('/'):
+                    internal_url = page_url + link.attrs['href']
+                    yield internal_url
 
 
 page_url = 'http://www.archdesign.pl'
-page_name = page_url.split('.')[1]
-# print(page_name)
 page = CompanyDataSearch(page_url)
 soup = page.get_soup()
-for link in soup.find_all("a"):
-    if 'href' in link.attrs:
-        internal_url = link.attrs['href']
-        print(internal_url)
+internal_links = page.get_internal_links(soup)
+for link in internal_links:
+    print(link)
