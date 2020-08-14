@@ -13,19 +13,25 @@ class GoogleSearch:
 
         self.url = f"https://google.pl/search?q={self.phrase}"
 
-    def get_page(self, page='phrase'):
+    def get_page(self, page='phrase', parser='html.parser', user_agent='desktop'):
+        # Parser = 'lxml' or 'html.parser'
+        # user_agent = desktop, mobile
+        USER_AGENT = {
+            "desktop": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0",
+            "mobile": "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"
+        }
+        USER_AGENT = USER_AGENT[user_agent]
+        headers = {"user-agent": USER_AGENT}
+
         if page == 'phrase':
             url = self.url
         else:
             url = page
 
-        USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0"
-        # MOBILE_USER_AGENT = "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"
-        headers = {"user-agent": USER_AGENT}
         try:
             req = requests.get(url, headers=headers)
             if req.status_code == 200:
-                soup = BeautifulSoup(req.content, "lxml")
+                soup = BeautifulSoup(req.content, parser)
                 return soup
         except ConnectionError:
             raise ConnectionError(

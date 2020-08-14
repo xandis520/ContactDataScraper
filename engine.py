@@ -1,7 +1,10 @@
-def get_all_next_pages(phrase=''):
+from google_search import GoogleSearch
+
+
+def get_all_next_pages(phrase='', parser='lxml'):
     phrase = 'biura architektoniczne warszawa'
     page = GoogleSearch(phrase)
-    soup = page.get_page()
+    soup = page.get_page(parser=parser)
     next_pages = page.get_next_pages(soup)
     # Zapis stron do pliku tekstowego
     external_links_list = []
@@ -17,7 +20,7 @@ def get_all_next_pages(phrase=''):
     for page_number in range(2, 5):
         # Pętla wyszukuje linki do kolejnych stron w wyszukiwarce i dopisuje je do słownika wyjściowego
         try:
-            soup = page.get_page(page=next_pages[f'Page {page_number}'])
+            soup = page.get_page(page=next_pages[f'Page {page_number}'], parser=parser)
             external_links = page.get_external_links(soup)
             try:
                 for link in external_links:
