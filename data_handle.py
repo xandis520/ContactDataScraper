@@ -5,17 +5,25 @@
 import pymysql
 
 
+class FileDataManager:
+    def __init__(self, filename):
+        self.filename = filename
+
+
 class SqlDataManager:
     def __init__(self, host='localhost', user='root', password="", db='', charset='utf8mb4'):
         self.connection = pymysql.connect(
             host=host,
             user=user,
             password=password,
-            database=db,
+            database='',
             charset=charset,
             cursorclass=pymysql.cursors.DictCursor,
         )
         self.cursor = self.connection.cursor()
+        if db != '':
+            self.create_database(db)
+            self.connection.select_db(db)
 
     def create_database(self, database_name):
         sql_statement = f"CREATE DATABASE IF NOT EXISTS {database_name};"
@@ -36,17 +44,16 @@ class SqlDataManager:
         sql_statement = f"DROP TABLE IF EXISTS {table_name};"
         self.cursor.execute(sql_statement)
 
-    def add_columns(self, database_name, table_name, columns):
+    def update_table(self, database_name, table_name, columns):
         self.connection.select_db(database_name)
         try:
             for column in columns:
                 sql_statement = f"ALTER TABLE {table_name} ADD {column};"
                 self.cursor.execute(sql_statement)
         except pymysql.err.ProgrammingError:
-            raise pymysql.err.ProgrammingError(
-                'You probably gave existing column name')
+            print('You probably gave existing column name')
 
-    def add_column(self, database_name, table_name, column):
+    def add_columns(self, database_name, table_name, columns):
         self.connection.select_db(database_name)
         try:
             sql_statement = f"ALTER TABLE {table_name} ADD {column};"
@@ -61,44 +68,38 @@ class SqlDataManager:
         if n > 1:
             values = ''
             for index, url in enumerate(urls):
-                values += "('"+url+"')"
-                if index != n-1:
+                values += "('" + url + "')"
+                if index != n - 1:
                     values += ', '
         else:
-            values = "('"+urls[0]+"')"
+            values = "('" + urls[0] + "')"
 
         sql_statement = f"INSERT INTO {table_name} (`strona_internetowa`) VALUES {values};"
-        # sql_statement = "INSERT INTO `nazwy` (`strona_internetowa`) VALUES ('xyz'), ('cwede')"
-        # print(sql_statement)
         self.cursor.execute(sql_statement)
         self.connection.commit()
 
-
-class BlackListManager:
-    def __init__(self, db, host='localhost', user='root', password="", charset='utf8mb4'):
-        self.connection = pymysql.connect(
-            host=host,
-            user=user,
-            password=password,
-            database='',
-            charset=charset,
-            cursorclass=pymysql.cursors.DictCursor,
-        )
-        self.cursor = self.connection.cursor()
-        if db != '':
-            self.create_database(db)
-            self.connection.select_db(db)
-
-    def create_database(self, database_name):
-        sql_statement = f"CREATE DATABASE IF NOT EXISTS {database_name};"
+    def check_if_exists(self, database_name, table_name, column_name, data):
+        self.connection.select_db(database_name)
+        sql_statement = f"SELECT id FROM {table_name} WHERE {column_name} = '{data}'"
         self.cursor.execute(sql_statement)
+        id = self.cursor.fetchone()
+        if id is not None:
+            return True
+        else:
+            return False
 
-    def create_table(self, table_name):
-        sql_statement = f"CREATE TABLE IF NOT EXISTS '{table_name}'(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255));"
+    def get_row(self, database_name, table_name, column_name, data):
+        self.connection.select_db(database_name)
+        sql_statement = f"SELECT * FROM {table_name} WHERE {column_name} = '{data}'"
         self.cursor.execute(sql_statement)
+        row = self.cursor.fetchone()
+        return row
+
+    def insert_data(self, database_name, table_name, columns='All', data='NULL'):
+        pass
 
 
-bl_database = BlackListManager(db='black_list')
+
 database = SqlDataManager()
 columns = """(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -129,13 +130,14 @@ columns = """(
     prokura VARCHAR(40)
 )"""
 
-add_col = ('wlasciciel VARCHAR(40)', 'test VARCHAR(40)')
-column = 'test2 VARCHAR(40)'
+# add_col = ('wlasciciel VARCHAR(40)', 'test VARCHAR(40)')
+columns = ['test2 VARCHAR(40)']
 # database.create_database('baza_firm')
 # database.delete_database('baza_firm')
-database.create_table('baza_firm', 'nazwy', columns)
-# database.add_columns('baza_firm', 'nazwy', columns)
-# database.add_column('baza_firm', 'nazwy', column)
+# database.create_table('baza_firm', 'nazwy', columns)
+# database.update_table('baza_firm', 'nazwy', columns)
 # database.delete_table('baza_firm', 'nazwy')
-urls = ['www.google.pl']
-database.add_urls('baza_firm', 'nazwy', urls)
+# urls = ['www.google.pl']
+# database.add_urls('baza_firm', 'nazwy', urls)
+# print(database.check_if_exists('baza_firm', 'nazwy', 'strona_internetowa', 'www.google.pl'))
+print(database.get_row('baza_firm', 'nazwy', 'strona_internetowa', 'www.google.pl'))

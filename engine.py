@@ -1,12 +1,13 @@
 from google_search import GoogleSearch
 
 
-def get_all_next_pages(phrase='', parser='lxml'):
-    phrase = 'biura architektoniczne warszawa'
+def get_all_pages(phrase='', parser='lxml'):
+    phrase ='biura architektoniczne warszawa'
+    # [function]sprawdza, czy fraza widnieje już w bazie danych (czy była już wyszukiwana)
     page = GoogleSearch(phrase)
-    soup = page.get_page(parser=parser)
+    soup = page.get_soup(parser=parser)
     next_pages = page.get_next_pages(soup)
-    # Zapis stron do pliku tekstowego
+    # [function]Zapis stron do pliku tekstowego
     external_links_list = []
     external_links = page.get_external_links(soup)
     try:
@@ -17,10 +18,10 @@ def get_all_next_pages(phrase='', parser='lxml'):
         print('Some error')
 
     # Zapis linkow do bazy danych
-    for page_number in range(2, 5):
+    for page_number in range(2, 15):
         # Pętla wyszukuje linki do kolejnych stron w wyszukiwarce i dopisuje je do słownika wyjściowego
         try:
-            soup = page.get_page(page=next_pages[f'Page {page_number}'], parser=parser)
+            soup = page.get_soup(url=next_pages[f'Page {page_number}'], parser=parser)
             external_links = page.get_external_links(soup)
             try:
                 for link in external_links:
@@ -34,6 +35,7 @@ def get_all_next_pages(phrase='', parser='lxml'):
         except KeyError:
             print(f"Page {page_number} doesn't exist in google search.")
             break
+
     for keys, values in next_pages.items():
         print(keys+':', values)
 
@@ -51,5 +53,12 @@ def get_all_next_pages(phrase='', parser='lxml'):
     # Skrypt kończy działać, kiedy nie znajdzie już żadnych nowych linków
     # Zwraca pełną listę linków zapisaną w pliku (tak, aby tylko część linków była zapisana w pamięci podręcznej)
 
+def find_data_in_url():
+    # Skrypt przeszukuje stronę internetową w poszukiwaniu danych o tej stronie
+    pass
 
-get_all_next_pages()
+def find_data_in_krs():
+    # Skrypt przeszukuje bazę danych krs na podstawie danych zebranych ze strony internetowej
+    pass
+
+get_all_pages()
