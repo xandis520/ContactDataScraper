@@ -50,7 +50,7 @@ class CompanyDataSearch:
             raise ValueError('You have to define url or soup')
 
     def get_internal_links(self):
-        for link in self.bs_obj.find_all("a"):
+        for link in self.soup.find_all("a"):
             if 'href' in link.attrs:
                 if page_url in link.attrs['href']:
                     internal_url = link.attrs['href']
@@ -107,13 +107,16 @@ if __name__ == '__main__':
     page_url = 'http://www.dsgn.pl/'
     # page_url = 'http://www.archdesign.pl/architekt_warszawa/kontakt'
     page = CompanyDataSearch(page_url)
-    # internal_links = page.get_internal_links()
+    internal_links = page.get_internal_links()
     # contact_page = get_contact_pages(internal_links)
     contact_data = get_contact_data(page_url)
     # print(contact_data)
     for result in contact_data:
         # print(re.sub('\D', '', result.group()))
         # print(''.join(filter(str.isdigit, result.group())))
+        print(result)
+
+    for result in internal_links:
         print(result)
 
     # print(get_web_page('https://www.google.pl/search?biuro+architektoniczne'))
