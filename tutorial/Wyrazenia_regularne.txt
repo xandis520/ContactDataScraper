@@ -1,6 +1,0 @@
-^ - znak grotu oznacza, że tekst musi być na początku linii
-| - operator "lub" oznacza, że musi być spełniona tylko jedna z szukanych wartości np (com|pl|eu)
-.*? - oznacza niezachłanne dopasowanie dowolnej ilości znaków znaków, czyli dopasowanie jak najmniejszej liczby znaków z wyjątkiem "\n"
-. - oznacza każdy znak za wyjątkiem znaku nowej lini "\n"
-* - oznacza powtórzenie 0 lub więcej razy
-? - oznacza dopasowanie niezachłanne , czyli dopasowanie jak najmniejszej liczby znaków

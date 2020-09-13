@@ -3,6 +3,7 @@ wikiSpider/
 venv_pc/
 tutorial/
 venv/
+__pycache__/
 test.py
 test1.csv
 test2.py
