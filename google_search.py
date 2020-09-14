@@ -1,9 +1,4 @@
-# 1. Wprowadzić opcję ustawiawiania user_agenta
-# 2.
 from urllib.parse import urlparse, urlunparse
-from bs4 import BeautifulSoup
-import requests
-from requests import ConnectionError
 from traverse_page import get_soup
 
 

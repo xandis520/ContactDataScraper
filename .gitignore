@@ -4,12 +4,5 @@ venv_pc/
 tutorial/
 venv/
 __pycache__/
-test.py
-test1.csv
-test2.py
-test3.py
-output1.html
-output2.html
-links.txt
-external_link_test.csv
-backup_10_08_2020.py
+test/
+todo.txt
