@@ -37,7 +37,7 @@ def get_soup(url, parser='html.parser', user_agent='desktop'):
         raise ConnectionError(
             'Probably you have used incorrect link!')
     except ImportError:
-        raise ImportError('You need to have installed bs4 ,requests, html.parser and lxml')
+        raise ImportError('You need to have installed bs4, requests, html.parser and lxml')
 
 
 class CompanyDataSearch:
@@ -71,50 +71,55 @@ def get_contact_data(url):
     soup = str(get_soup(url))
     # webpage = get_web_page(url)
 
+    # Phone
     r_phone = re.compile(r'\b\d{3}[-\s\*\.]?\d{3}[-\s\*\.]?\d{3}\b') # Znajduje też numery, które poprzedzone są znakiem '/'. Trzeba to poprawić.
+    # r_landline_phone = re.compile(r'\+?48[-\s\*\.]+\d{2,3}[-\s\*\.]?\d{2,3}[-\s\*\.]?\d{2}[-\s\*\.]?\d{2}')
     # r = re.compile(r'\b\d{3}[-\s\*\.]?\d{3}[-\s\*\.]?\d{3}\b')
+    # phone_results = r_landline_phone.finditer(soup)
     phone_results = r_phone.finditer(soup)
-
     phone = []
     for number in phone_results:
         number = number.group()
         if number not in phone:
             phone.append(number)
 
+    # Nip
     r_nip = re.compile(r'\b\d{3}[-\s\*\.]?\d{3}[-\s\*\.]?\d{2}[-\s\*\.]?\d{2}\b')
     nip_results = r_nip.finditer(soup)
-
     nip = []
     for number in nip_results:
         number = number.group()
         if number not in nip:
             nip.append(number)
 
-    print(nip)
+    data = {
+        "phone": phone,
+        "mail": None,
+        "street": None,
+        "street_number": None,
+        "apartment": None,
+        "city": None,
+        "postal_code": None,
+        "nip": nip,
+        "regon": None
+    }
 
-    mail = []
-    street = None
-    street_number = None
-    apartment = None
-    city = None
-    postal_code = None
-    # nip = None
-    regon = None
-    return phone
+    return data
 
 
 if __name__ == '__main__':
     page_url = 'http://www.dsgn.pl/'
+    # page_url = 'http://janderkabza.pl/kontakt/'
     # page_url = 'http://www.archdesign.pl/architekt_warszawa/kontakt'
     page = CompanyDataSearch(page_url)
     internal_links = page.get_internal_links()
     # contact_page = get_contact_pages(internal_links)
     contact_data = get_contact_data(page_url)
     # print(contact_data)
-    for result in contact_data:
+    for key, value in contact_data.items():
         # print(re.sub('\D', '', result.group()))
         # print(''.join(filter(str.isdigit, result.group())))
-        print(result)
+        print(key+":", value)
 
     for result in internal_links:
         print(result)
