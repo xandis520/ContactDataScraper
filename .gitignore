@@ -6,3 +6,7 @@ venv/
 __pycache__/
 test/
 todo.txt
+main_loading.py
+untitled.ui
+ui_untitled.py
+ui_main.ui
