@@ -827,7 +827,7 @@ background-color: rgb(47, 49, 54);</string>
                    <string notr="true">background: transparent;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>3</number>
                   </property>
                   <widget class="QWidget" name="page_home">
                    <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -960,6 +960,7 @@ QPushButton:pressed{
                    </layout>
                   </widget>
                   <widget class="QWidget" name="page_data"/>
+                  <widget class="QWidget" name="page_lists"/>
                   <widget class="QWidget" name="page_settings">
                    <layout class="QVBoxLayout" name="verticalLayout_9">
                     <property name="spacing">
@@ -1431,14 +1432,14 @@ color: rgb(171, 171, 172);</string>
                                    </property>
                                    <layout class="QHBoxLayout" name="horizontalLayout_14">
                                     <item>
-                                     <widget class="QLabel" name="label_5">
+                                     <widget class="QLabel" name="label_google_how_many_pages">
                                       <property name="text">
                                        <string>How many pages to scrap? (1-15)</string>
                                       </property>
                                      </widget>
                                     </item>
                                     <item alignment="Qt::AlignLeft">
-                                     <widget class="QFrame" name="frame_8">
+                                     <widget class="QFrame" name="frame_how_many_pages">
                                       <property name="frameShape">
                                        <enum>QFrame::StyledPanel</enum>
                                       </property>
@@ -1462,7 +1463,7 @@ color: rgb(171, 171, 172);</string>
                                         <number>0</number>
                                        </property>
                                        <item>
-                                        <widget class="QSpinBox" name="spinBox">
+                                        <widget class="QSpinBox" name="spin_box_google_pages">
                                          <property name="sizePolicy">
                                           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                                            <horstretch>0</horstretch>
@@ -1493,7 +1494,7 @@ color: rgb(171, 171, 172);</string>
                                    </property>
                                    <layout class="QHBoxLayout" name="horizontalLayout_19">
                                     <item>
-                                     <widget class="QLabel" name="label_9">
+                                     <widget class="QLabel" name="label_user_agent">
                                       <property name="text">
                                        <string>User agent</string>
                                       </property>
@@ -1524,14 +1525,14 @@ color: rgb(171, 171, 172);</string>
                                         <number>0</number>
                                        </property>
                                        <item>
-                                        <widget class="QRadioButton" name="radioButton_5">
+                                        <widget class="QRadioButton" name="radio_desktop">
                                          <property name="text">
                                           <string>desktop</string>
                                          </property>
                                         </widget>
                                        </item>
                                        <item>
-                                        <widget class="QRadioButton" name="radioButton_6">
+                                        <widget class="QRadioButton" name="radio_mobile">
                                          <property name="text">
                                           <string>mobile</string>
                                          </property>
@@ -1560,7 +1561,7 @@ color: rgb(171, 171, 172);</string>
                                      </widget>
                                     </item>
                                     <item>
-                                     <widget class="QCheckBox" name="checkBox">
+                                     <widget class="QCheckBox" name="check_google_pages">
                                       <property name="text">
                                        <string/>
                                       </property>
@@ -1616,14 +1617,14 @@ color: rgb(171, 171, 172);</string>
                                         <number>0</number>
                                        </property>
                                        <item>
-                                        <widget class="QRadioButton" name="radioButton_3">
+                                        <widget class="QRadioButton" name="radio_html">
                                          <property name="text">
                                           <string>html.parser</string>
                                          </property>
                                         </widget>
                                        </item>
                                        <item>
-                                        <widget class="QRadioButton" name="radioButton_4">
+                                        <widget class="QRadioButton" name="radio_lxml">
                                          <property name="text">
                                           <string>lxml</string>
                                          </property>
@@ -1854,7 +1855,7 @@ color: rgb(171, 171, 172);</string>
                                         </widget>
                                        </item>
                                        <item>
-                                        <widget class="QCheckBox" name="check_External">
+                                        <widget class="QCheckBox" name="check_external">
                                          <property name="text">
                                           <string/>
                                          </property>
@@ -2075,9 +2076,9 @@ color: rgb(171, 171, 172);</string>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QCheckBox" name="check_adress">
+                                           <widget class="QCheckBox" name="check_address">
                                             <property name="text">
-                                             <string>adress (future release)</string>
+                                             <string>address (future release)</string>
                                             </property>
                                            </widget>
                                           </item>
@@ -2161,14 +2162,14 @@ color: rgb(171, 171, 172);</string>
                                          </property>
                                          <layout class="QHBoxLayout" name="horizontalLayout_24">
                                           <item>
-                                           <widget class="QLabel" name="label__contact_data_2">
+                                           <widget class="QLabel" name="label__krs">
                                             <property name="text">
                                              <string>Search krs data? (future release)</string>
                                             </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QCheckBox" name="check_contact_data_2">
+                                           <widget class="QCheckBox" name="check_krs">
                                             <property name="text">
                                              <string/>
                                             </property>

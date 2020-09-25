@@ -1,6 +1,7 @@
 from main import *
 import config
-
+import configparser
+from distutils.util import strtobool
 
 #######################################################################
 # GLOBALS
@@ -102,37 +103,90 @@ class UIFunctions(MainWindow):
         self.shadow2.setColor(QColor(0, 0, 0, 60))
         self.ui.button_run.setGraphicsEffect(self.shadow2)
 
-    def config_handle(self):
-        config.create_config('config_settings.cfg')
-        self.ui.spin_box_google_pages.setValue(14)
+    def config_initialize(self):
+        file_name = 'config_settings.cfg'
+        config.create_config(file_name)
+        cfg = configparser.ConfigParser()
+        cfg.read(file_name)
         # GOOGLE ENGINE
+        google = cfg['GOOGLE']
         # How many pages
-        # self.ui.spin_box_google_pages
+        self.ui.spin_box_google_pages.setValue(int(google['how_many_pages']))
         # # User agent
-        # self.ui.radio_desktop
-        # self.ui.radio_mobile
+        if google['user_agent'] == 'desktop':
+            self.ui.radio_desktop.setChecked(True)
+        else:
+            self.ui.radio_mobile.setChecked(True)
         # # Save google pages
-        # self.ui.check_google_pages
+        self.ui.check_google_pages.setChecked(strtobool(google['save_google_pages']))
         # # Parser
-        # self.ui.radio_html
-        # self.ui.radio_lxml
-        #
-        # # GENERAL SETTINGS
-        # # Search external pages?
-        # self.ui.check_external
-        # # Save google pages?
-        # self.ui.check_save_google_pages
-        # # Black list links file
-        # self.ui.label_black_list_file
+        if google['parser'] == 'html.parser':
+            self.ui.radio_html.setChecked(True)
+        else:
+            self.ui.radio_lxml.setChecked(True)
+        # GENERAL SETTINGS
+        general = cfg['GENERAL']
+        # Search external pages?
+        self.ui.check_external.setChecked(strtobool(general['search_external']))
+        # Black list links file
+        self.ui.label_black_list_file.setText(general['black_list_file'])
         # self.ui.button_black_list_load
         # self.ui.button_black_list_open
-        # # Search contact data?
-        # self.ui.check_contact_data
-        # # Type of data
-        # self.ui.check_phone
-        # self.ui.check_email
-        # # self.ui.check_address
-        # # self.ui.check_city
-        # # self.ui.check_postal
-        # self.ui.check_nip
-        # self.ui.check_regon
+        # Search contact data?
+        self.ui.check_contact_data.setChecked(strtobool(general['search_contact_data']))
+        # Type of data
+        self.ui.check_phone.setChecked(strtobool(general['phone_number']))
+        self.ui.check_email.setChecked(strtobool(general['email']))
+        # self.ui.check_address
+        # self.ui.check_city
+        # self.ui.check_postal
+        self.ui.check_nip.setChecked(strtobool(general['nip']))
+        self.ui.check_regon.setChecked(strtobool(general['regon']))
+        self.ui.check_krs.setChecked(strtobool(general['krs']))
+
+    def config_update(self, file_name):
+        # USER_AGENT
+        if self.ui.radio_desktop.isChecked():
+            user_agent = 'desktop'
+        else:
+            user_agent = 'mobile'
+
+        # PARSER
+        if self.ui.radio_html.isChecked():
+            parser = 'html.parser'
+        else:
+            parser = 'lxml'
+
+        config = configparser.ConfigParser()
+        config['GOOGLE'] = {
+            'how_many_pages': self.ui.spin_box_google_pages.text(),
+            'user_agent': user_agent,
+            'save_google_pages': str(self.ui.check_google_pages.isChecked()),
+            'parser': parser,
+        }
+        config['GENERAL'] = {
+            'search_external': str(self.ui.check_external.isChecked()),
+            'black_list_file': self.ui.label_black_list_file.text(),
+            'search_contact_data': str(self.ui.check_contact_data.isChecked()),
+            'phone_number': str(self.ui.check_phone.isChecked()),
+            'email': str(self.ui.check_email.isChecked()),
+            'address': 'False',
+            'city': 'False',
+            'postal_code': 'False',
+            'nip': str(self.ui.check_nip.isChecked()),
+            'regon': 'False',
+            'krs': 'False',
+        }
+        with open(file_name, 'w') as cfg_file:
+            config.write(cfg_file)
+
+    def config_new(self, file_name):
+        print('new')
+
+    def config_load(self, file_name):
+        print('load')
+
+    def engine_run(self):
+        phrase = self.ui.text_search.toPlainText()
+        self.ui.text_search.clear()
+        print(phrase)

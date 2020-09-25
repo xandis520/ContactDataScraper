@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_maingaJOgs.ui'
+## Form generated from reading UI file 'ui_mainHuwQgi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.1
 ##
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1069, 834)
+        MainWindow.resize(1069, 783)
         MainWindow.setStyleSheet(u"background-color: rgb(32, 34, 37);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -622,7 +622,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 975, 696))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 975, 645))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setSpacing(20)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
@@ -928,27 +928,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_23.addWidget(self.label_external_pages, 0, Qt.AlignLeft)
 
-        self.frame_save_google_pages = QFrame(self.frame_general_main_in)
-        self.frame_save_google_pages.setObjectName(u"frame_save_google_pages")
-        sizePolicy6.setHeightForWidth(self.frame_save_google_pages.sizePolicy().hasHeightForWidth())
-        self.frame_save_google_pages.setSizePolicy(sizePolicy6)
-        self.frame_save_google_pages.setFrameShape(QFrame.NoFrame)
-        self.frame_save_google_pages.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_21 = QHBoxLayout(self.frame_save_google_pages)
-        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
-        self.label_save_google_pages = QLabel(self.frame_save_google_pages)
-        self.label_save_google_pages.setObjectName(u"label_save_google_pages")
-
-        self.horizontalLayout_21.addWidget(self.label_save_google_pages)
-
-        self.check_save_google_pages = QCheckBox(self.frame_save_google_pages)
-        self.check_save_google_pages.setObjectName(u"check_save_google_pages")
-
-        self.horizontalLayout_21.addWidget(self.check_save_google_pages)
-
-
-        self.verticalLayout_23.addWidget(self.frame_save_google_pages, 0, Qt.AlignLeft)
-
         self.frame_black_list = QFrame(self.frame_general_main_in)
         self.frame_black_list.setObjectName(u"frame_black_list")
         sizePolicy6.setHeightForWidth(self.frame_black_list.sizePolicy().hasHeightForWidth())
@@ -1085,15 +1064,15 @@ class Ui_MainWindow(object):
         self.frame_krs1.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_24 = QHBoxLayout(self.frame_krs1)
         self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
-        self.label__contact_data_2 = QLabel(self.frame_krs1)
-        self.label__contact_data_2.setObjectName(u"label__contact_data_2")
+        self.label__krs = QLabel(self.frame_krs1)
+        self.label__krs.setObjectName(u"label__krs")
 
-        self.horizontalLayout_24.addWidget(self.label__contact_data_2)
+        self.horizontalLayout_24.addWidget(self.label__krs)
 
-        self.check_contact_data_2 = QCheckBox(self.frame_krs1)
-        self.check_contact_data_2.setObjectName(u"check_contact_data_2")
+        self.check_krs = QCheckBox(self.frame_krs1)
+        self.check_krs.setObjectName(u"check_krs")
 
-        self.horizontalLayout_24.addWidget(self.check_contact_data_2)
+        self.horizontalLayout_24.addWidget(self.check_krs)
 
 
         self.verticalLayout_21.addWidget(self.frame_krs1, 0, Qt.AlignLeft)
@@ -1262,8 +1241,6 @@ class Ui_MainWindow(object):
         self.label_general.setText(QCoreApplication.translate("MainWindow", u"General Settings", None))
         self.label_external.setText(QCoreApplication.translate("MainWindow", u"Search external pages?", None))
         self.check_external.setText("")
-        self.label_save_google_pages.setText(QCoreApplication.translate("MainWindow", u"Save google pages links?", None))
-        self.check_save_google_pages.setText("")
         self.label_black_list.setText(QCoreApplication.translate("MainWindow", u"Black list links file:", None))
         self.label_black_list_file.setText(QCoreApplication.translate("MainWindow", u"some_file.txt", None))
         self.button_black_list_load.setText(QCoreApplication.translate("MainWindow", u"Load", None))
@@ -1277,8 +1254,8 @@ class Ui_MainWindow(object):
         self.check_postal.setText(QCoreApplication.translate("MainWindow", u"postal code (future release)", None))
         self.check_nip.setText(QCoreApplication.translate("MainWindow", u"nip", None))
         self.check_regon.setText(QCoreApplication.translate("MainWindow", u"regon (future release)", None))
-        self.label__contact_data_2.setText(QCoreApplication.translate("MainWindow", u"Search krs data? (future release)", None))
-        self.check_contact_data_2.setText("")
+        self.label__krs.setText(QCoreApplication.translate("MainWindow", u"Search krs data? (future release)", None))
+        self.check_krs.setText("")
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Designed by Adrian W\u0142odarczyk", None))
         self.label_version_01.setText(QCoreApplication.translate("MainWindow", u"Alpha", None))
         self.label_version_02.setText(QCoreApplication.translate("MainWindow", u"v0.0.1", None))
