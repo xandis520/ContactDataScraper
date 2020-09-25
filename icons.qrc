@@ -1,10 +1,16 @@
 <RCC>
   <qresource prefix="24x24">
+    <file>icons/24x24/cil-home.png</file>
+    <file>icons/24x24/cil-camera-roll.png</file>
+    <file>icons/24x24/cil-justify-center.png</file>
     <file>icons/24x24/cil-menu.png</file>
     <file>icons/24x24/cil-3d.png</file>
     <file>icons/24x24/cil-settings.png</file>
     <file>icons/24x24/cil-window-minimize.png</file>
     <file>icons/24x24/cil-window-restore.png</file>
     <file>icons/24x24/cil-x.png</file>
+  </qresource>
+  <qresource prefix="16x16">
+    <file>icons/16x16/cil-size-grip.png</file>
   </qresource>
 </RCC>
