@@ -5,6 +5,7 @@ tutorial/
 venv/
 __pycache__/
 test/
+links/
 todo.txt
 main_loading.py
 untitled.ui

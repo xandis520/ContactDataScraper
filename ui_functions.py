@@ -2,6 +2,7 @@ from main import *
 import config
 import configparser
 from distutils.util import strtobool
+from run import Run
 
 #######################################################################
 # GLOBALS
@@ -100,7 +101,7 @@ class UIFunctions(MainWindow):
         self.shadow2.setBlurRadius(30)
         self.shadow2.setXOffset(0)
         self.shadow2.setYOffset(0)
-        self.shadow2.setColor(QColor(0, 0, 0, 60))
+        self.shadow2.setColor(QColor(0, 0, 0, 80))
         self.ui.button_run.setGraphicsEffect(self.shadow2)
 
     def config_initialize(self):
@@ -189,4 +190,6 @@ class UIFunctions(MainWindow):
     def engine_run(self):
         phrase = self.ui.text_search.toPlainText()
         self.ui.text_search.clear()
+        run = Run()
+        run.run(phrase)
         print(phrase)

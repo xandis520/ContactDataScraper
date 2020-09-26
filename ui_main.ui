@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1069</width>
-    <height>834</height>
+    <height>783</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -827,7 +827,7 @@ background-color: rgb(47, 49, 54);</string>
                    <string notr="true">background: transparent;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>3</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="page_home">
                    <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1244,7 +1244,7 @@ QCheckBox {
                             <x>0</x>
                             <y>0</y>
                             <width>975</width>
-                            <height>696</height>
+                            <height>645</height>
                            </rect>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1856,38 +1856,6 @@ color: rgb(171, 171, 172);</string>
                                        </item>
                                        <item>
                                         <widget class="QCheckBox" name="check_external">
-                                         <property name="text">
-                                          <string/>
-                                         </property>
-                                        </widget>
-                                       </item>
-                                      </layout>
-                                     </widget>
-                                    </item>
-                                    <item alignment="Qt::AlignLeft">
-                                     <widget class="QFrame" name="frame_save_google_pages">
-                                      <property name="sizePolicy">
-                                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                       </sizepolicy>
-                                      </property>
-                                      <property name="frameShape">
-                                       <enum>QFrame::NoFrame</enum>
-                                      </property>
-                                      <property name="frameShadow">
-                                       <enum>QFrame::Raised</enum>
-                                      </property>
-                                      <layout class="QHBoxLayout" name="horizontalLayout_21">
-                                       <item>
-                                        <widget class="QLabel" name="label_save_google_pages">
-                                         <property name="text">
-                                          <string>Save google pages links?</string>
-                                         </property>
-                                        </widget>
-                                       </item>
-                                       <item>
-                                        <widget class="QCheckBox" name="check_save_google_pages">
                                          <property name="text">
                                           <string/>
                                          </property>

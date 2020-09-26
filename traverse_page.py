@@ -94,7 +94,7 @@ def get_contact_data(url):
 
     data = {
         "phone": phone,
-        "mail": None,
+        "email": None,
         "street": None,
         "street_number": None,
         "apartment": None,
