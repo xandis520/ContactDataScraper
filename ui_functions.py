@@ -190,6 +190,9 @@ class UIFunctions(MainWindow):
     def engine_run(self):
         phrase = self.ui.text_search.toPlainText()
         self.ui.text_search.clear()
-        run = Run()
-        run.run(phrase)
-        print(phrase)
+        if phrase != '':
+            run = Run()
+            run.run(phrase)
+        else:
+            print('You have to insert phrase first')
+        # print(phrase)

@@ -17,9 +17,13 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         #######################################################################
-        # WINDOW CONTENT (TITLE)
+        # WINDOW CONTENT
         #######################################################################
+        # Title
         self.setWindowTitle('Contact Data Scraper')
+        # Window icon
+        app_icon = QIcon("icons/24x24/cil-3d.png")
+        self.setWindowIcon(app_icon)
 
         #######################################################################
         # REMOVE STANDARD TITLE BAR

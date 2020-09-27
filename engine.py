@@ -49,6 +49,7 @@ def get_all_pages(phrase='', parser='lxml', how_many_pages=5):
             next_pages.update(next_pages_iter)
         except KeyError:
             print(f"Page {page_number} doesn't exist in google search.")
+            print(f"Finished program on {page_number-1} pages.")
             break
 
     # for keys, values in next_pages.items():

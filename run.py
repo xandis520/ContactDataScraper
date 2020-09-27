@@ -11,7 +11,6 @@ class Run:
         files = config['FILES']
         self.config_settings = configparser.ConfigParser()
         self.config_settings.read(files['settings_file_name'])
-        print(self.config_settings['GOOGLE']['how_many_pages'])
 
     def run(self, phrase):
         #######################################################################
@@ -40,7 +39,10 @@ class Run:
             "regon": general['regon'],
         }
         krs = general['krs']
-
+        #######################################################################
+        # INITIAL MESSAGES
+        #######################################################################
+        print('[RUNNING PYTHON SCRAPPER VERSION alpha 0.0.1]')
         #######################################################################
         # EXECUTE
         #######################################################################
@@ -55,8 +57,10 @@ class Run:
         file_name_begin = file_directory + file_date + file_phrase + '_'
 
         #######################################################################
-        # PAGES
+        # GOOGLE PAGES
         #######################################################################
+        # INITIAL MESSAGE
+        print('Scrapping', google['how_many_pages'], 'pages')
         # GET PAGES
         pages = get_all_pages(phrase=phrase, parser=parser, how_many_pages=how_many_pages)
 
@@ -73,3 +77,8 @@ class Run:
         #######################################################################
         # TRAVERSE PAGES
         #######################################################################
+        # IN THE FUTURE
+        #######################################################################
+        # FINISH PROGRAM
+        #######################################################################
+        print('[PROGRAM FINISHED SCRAPPING SUCCESSFULLY]')
