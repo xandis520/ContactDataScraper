@@ -1,5 +1,6 @@
 from google_search import GoogleSearch
 import csv
+from traverse_page import *
 
 
 def save_pages(pages, file_name):
@@ -16,9 +17,9 @@ def save_google_pg(pages, file_name):
             writer.writerow([key, value])
 
 
-def get_all_pages(phrase='', parser='lxml', how_many_pages=5):
+def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages=5):
     page = GoogleSearch(phrase)
-    soup = page.get_soup(parser=parser)
+    soup = page.get_soup(parser=parser, user_agent=user_agent)
 
     next_pages = page.get_next_pages(soup)
 
@@ -30,8 +31,6 @@ def get_all_pages(phrase='', parser='lxml', how_many_pages=5):
                 external_links_list.append(link)
     except:
         print('Some error')
-
-    external_links = []
 
     for page_number in range(2, how_many_pages):
         # Pętla wyszukuje linki do kolejnych stron w wyszukiwarce i dopisuje je do słownika wyjściowego
@@ -74,9 +73,36 @@ def get_all_pages(phrase='', parser='lxml', how_many_pages=5):
     }
     return links
 
+
+def traverse_pages(file_name, settings, parser='html.parser', user_agent='desktop'):
+    with open(file_name, 'r', newline='') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            page = None
+            internal_links_list = None
+            try:
+                print(f'INTERNAL LINKS OF PAGE: {row[1]}')
+                page = CompanyDataSearch(url=row[1])
+                internal_links = page.get_internal_links()
+                # print(list(internal_links))
+                contact_pages = get_contact_pages(internal_links)
+                print(contact_pages)
+            except:
+                print(f'PAGE {row[1]} COULD NOT BE SCRAPPED')
+
+            # for result in internal_links_list:
+            #     print(result)
+            # print(list(internal_links_list))
+            # contact_pages.append(row[1])
+        # for id, page in enumerate(contact_pages):
+        #     contact_data = get_contact_data(page)
+        #     print('id:', id, contact_data)
+
+
 def find_data_in_url():
     # Skrypt przeszukuje stronę internetową w poszukiwaniu danych o tej stronie
     pass
+
 
 def find_data_in_krs():
     # Skrypt przeszukuje bazę danych krs na podstawie danych zebranych ze strony internetowej

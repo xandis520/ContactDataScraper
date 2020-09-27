@@ -26,9 +26,7 @@ class Run:
         # GENERAL
         general = self.config_settings['GENERAL']
         search_external = general['search_external']
-        black_list_file = general['black_list_file']
         search_contact_data = general['search_contact_data']
-        phone_number = general['phone_number']
         contact_data = {
             "phone": general['phone_number'],
             "email": general['email'],
@@ -38,7 +36,11 @@ class Run:
             "nip": general['nip'],
             "regon": general['regon'],
         }
-        krs = general['krs']
+        contact_settings = {
+            "black_list_file": general['black_list_file'],
+            "contact_data": contact_data,
+            "krs": general['krs']
+        }
         #######################################################################
         # INITIAL MESSAGES
         #######################################################################
@@ -60,9 +62,9 @@ class Run:
         # GOOGLE PAGES
         #######################################################################
         # INITIAL MESSAGE
-        print('Scrapping', google['how_many_pages'], 'pages')
+        print('Scrapping', google['how_many_pages'], 'google pages')
         # GET PAGES
-        pages = get_all_pages(phrase=phrase, parser=parser, how_many_pages=how_many_pages)
+        pages = get_all_pages(phrase=phrase, parser=parser, user_agent=user_agent, how_many_pages=how_many_pages)
 
         # SAVE INTERNAL GOOGLE PAGES
         if save_google_pages == 'True':
@@ -74,9 +76,13 @@ class Run:
             file_name = file_name_begin + 'external_pages.csv'
             save_pages(pages=pages['external'], file_name=file_name)
 
+        print('Finished scrapping google pages')
         #######################################################################
         # TRAVERSE PAGES
         #######################################################################
+        if search_contact_data == 'True':
+            print('Traversing pages to search contact data')
+            traverse_pages(file_name=file_name, settings=contact_settings, parser=parser, user_agent=user_agent)
         # IN THE FUTURE
         #######################################################################
         # FINISH PROGRAM

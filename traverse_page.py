@@ -42,6 +42,7 @@ def get_soup(url, parser='html.parser', user_agent='desktop'):
 
 class CompanyDataSearch:
     def __init__(self, url=None, soup=None):
+        self.url = url
         if url:
             self.soup = get_soup(url)
         elif soup:
@@ -52,17 +53,19 @@ class CompanyDataSearch:
     def get_internal_links(self):
         for link in self.soup.find_all("a"):
             if 'href' in link.attrs:
-                if page_url in link.attrs['href']:
+                if self.url in link.attrs['href']:
                     internal_url = link.attrs['href']
                     yield internal_url
                 elif link.attrs['href'].startswith('/'):
-                    internal_url = page_url + link.attrs['href']
+                    internal_url = self.url + link.attrs['href']
                     yield internal_url
 
 
 def get_contact_pages(internal_links):
     words_list = ['kontakt', 'contact']
     contact_pages = [link for word in words_list for link in internal_links if word in link]
+    # Removing duplicates from list
+    contact_pages = list(dict.fromkeys(contact_pages))
     return contact_pages
 
 
@@ -111,7 +114,7 @@ if __name__ == '__main__':
     page_url = 'http://www.dsgn.pl/'
     # page_url = 'http://janderkabza.pl/kontakt/'
     # page_url = 'http://www.archdesign.pl/architekt_warszawa/kontakt'
-    page = CompanyDataSearch(page_url)
+    page = CompanyDataSearch(url=page_url)
     internal_links = page.get_internal_links()
     # contact_page = get_contact_pages(internal_links)
     contact_data = get_contact_data(page_url)

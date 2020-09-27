@@ -24,7 +24,8 @@ class GoogleSearch:
                 page_url = link.attrs['href']
                 if 'google' not in page_url:
                     page_url = urlparse(page_url)
-                    yield urlunparse((page_url.scheme, page_url.netloc, page_url.path, '', '', ''))
+                    # yield urlunparse((page_url.scheme, page_url.netloc, page_url.path, '', '', ''))
+                    yield urlunparse((page_url.scheme, page_url.netloc, '', '', '', ''))
 
     def get_next_pages(self, bs_obj):
         pages_dict = dict()
