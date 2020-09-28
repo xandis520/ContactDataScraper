@@ -75,28 +75,42 @@ def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages
 
 
 def traverse_pages(file_name, settings, parser='html.parser', user_agent='desktop'):
+    file_name_contact = file_name[:-18] + 'contact_data.csv'
+    with open(file_name_contact, 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(['id', 'page_url', 'phone', 'email', 'nip'])
     with open(file_name, 'r', newline='') as csv_file:
         reader = csv.reader(csv_file)
         for row in reader:
             page = None
             internal_links_list = None
             try:
-                print(f'INTERNAL LINKS OF PAGE: {row[1]}')
-                page = CompanyDataSearch(url=row[1])
+                print(f'GETTING INTERNAL CONTACT LINKS OF PAGE: {row[1]}')
+                page = CompanyDataSearch(url=row[1], parser=parser, user_agent=user_agent)
                 internal_links = page.get_internal_links()
-                # print(list(internal_links))
+                contact_pages = []
                 contact_pages = get_contact_pages(internal_links)
-                print(contact_pages)
+                if len(contact_pages) != 0:
+                    print(contact_pages)
+                    print(f'PROGRAM FOUND {len(contact_pages)} CONTACT PAGES')
+                else:
+                    print('PROGRAM COULD NOT FIND INTERNAL CONTACT PAGES')
+
+                contact_pages.append(row[1])
             except:
                 print(f'PAGE {row[1]} COULD NOT BE SCRAPPED')
 
-            # for result in internal_links_list:
-            #     print(result)
-            # print(list(internal_links_list))
-            # contact_pages.append(row[1])
-        # for id, page in enumerate(contact_pages):
-        #     contact_data = get_contact_data(page)
-        #     print('id:', id, contact_data)
+            print('SEARCHING FOR CONTACT DATA')
+            contact_data = dict()
+            for id, page_url in enumerate(contact_pages):
+                contact_data_iter = get_contact_data(url=page_url, parser=parser, user_agent=user_agent)
+                contact_data.update(contact_data_iter)
+            print('CONTACT DATA:')
+            print(contact_data)
+            row = [row[0], row[1], contact_data['phone'], contact_data['email'], contact_data['nip']]
+            with open(file_name_contact, 'a+', newline='') as csv_contact_file:
+                writer = csv.writer(csv_contact_file)
+                writer.writerow(row)
 
 
 def find_data_in_url():

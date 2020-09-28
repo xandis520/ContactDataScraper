@@ -41,10 +41,10 @@ def get_soup(url, parser='html.parser', user_agent='desktop'):
 
 
 class CompanyDataSearch:
-    def __init__(self, url=None, soup=None):
+    def __init__(self, url=None, soup=None, parser='html.parser', user_agent='desktop'):
         self.url = url
         if url:
-            self.soup = get_soup(url)
+            self.soup = get_soup(url=url, parser=parser, user_agent=user_agent)
         elif soup:
             self.soup = soup
         else:
@@ -69,9 +69,9 @@ def get_contact_pages(internal_links):
     return contact_pages
 
 
-def get_contact_data(url):
+def get_contact_data(url, parser, user_agent):
     # Optional soup or webpage
-    soup = str(get_soup(url))
+    soup = str(get_soup(url=url, parser=parser, user_agent=user_agent))
     # webpage = get_web_page(url)
 
     # Phone
