@@ -126,7 +126,6 @@ class ContactData:
         return data
 
     def get_phone(self):
-        # Znajduje też numery, które poprzedzone są znakiem '/'. Trzeba to poprawić.
         r_phone = re.compile(r'\b\d{3}[-\s\*\.]?\d{3}[-\s\*\.]?\d{3}\b')
         # r_landline_phone = re.compile(r'\+?48[-\s\*\.]+\d{2,3}[-\s\*\.]?\d{2,3}[-\s\*\.]?\d{2}[-\s\*\.]?\d{2}')
         # r = re.compile(r'\b\d{3}[-\s\*\.]?\d{3}[-\s\*\.]?\d{3}\b')
