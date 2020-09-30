@@ -6,7 +6,7 @@ from urllib.request import Request, urlopen
 
 
 ########################################################################
-# GETTING PAGE CONTENT USING REQUEST
+# GETTING PAGE CONTENT USING urllib.request
 ########################################################################
 def get_web_page(url):
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
