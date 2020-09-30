@@ -29,7 +29,7 @@ Program that is responsible for the analysis of website content. "html.parser" i
 ### General settings:
 #### Search external pages?
 Do you want search and save external links found in google pages?
-### Search contact data?
+#### Search contact data?
 Do you want to search and save specified contact data found inside external links?
 Currently available: phone number (Polish mobile number type), email, nip
 ![settings](resources/images/ui_settings.png)
