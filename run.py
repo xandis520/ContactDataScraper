@@ -83,7 +83,6 @@ class Run:
         if search_contact_data == 'True':
             print('Traversing pages to search contact data')
             traverse_pages(file_name=file_name, settings=contact_settings, parser=parser, user_agent=user_agent)
-        # IN THE FUTURE
         #######################################################################
         # FINISH PROGRAM
         #######################################################################

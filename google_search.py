@@ -10,14 +10,15 @@ class GoogleSearch:
         self.url = f"https://google.pl/search?q={self.phrase}"
 
     def get_soup(self, url=None, parser='html.parser', user_agent='desktop'):
-        # Parser = 'lxml' or 'html.parser'
-        # user_agent = desktop, mobile
         if url is None:
             url = self.url
 
         return get_soup(url=url, parser=parser, user_agent=user_agent)
 
-    def get_external_links(self, bs_obj):
+    def get_external_links(self, bs_obj=None):
+        if bs_obj is None:
+            bs_obj = self.get_soup()
+
         for link in bs_obj.find_all("div", {"class": "r"}):
             link = link.find("a")
             if 'href' in link.attrs:
@@ -27,7 +28,10 @@ class GoogleSearch:
                     # yield urlunparse((page_url.scheme, page_url.netloc, page_url.path, '', '', ''))
                     yield urlunparse((page_url.scheme, page_url.netloc, '', '', '', ''))
 
-    def get_next_pages(self, bs_obj):
+    def get_next_pages(self, bs_obj=None):
+        if bs_obj is None:
+            bs_obj = self.get_soup()
+
         pages_dict = dict()
         pages_links = bs_obj.find_all("a", {"class": "fl"})
 

@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         # Update config
         self.ui.button_settings_save.clicked.connect(lambda: UIFunctions.config_update(self, 'config_settings.cfg'))
         # New file
-        self.ui.button_settings_new.clicked.connect(lambda: UIFunctions.config_new(self, 'filename????'))
+        self.ui.button_settings_new.clicked.connect(lambda: UIFunctions.config_new(self, 'filename?'))
         # Load file
         self.ui.button_settings_load.clicked.connect(lambda: UIFunctions.config_load(self, 'filename?'))
 

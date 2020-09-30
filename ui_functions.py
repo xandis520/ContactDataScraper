@@ -109,30 +109,34 @@ class UIFunctions(MainWindow):
         config.create_config(file_name)
         cfg = configparser.ConfigParser()
         cfg.read(file_name)
+
+        #######################################################################
         # GOOGLE ENGINE
+        #######################################################################
         google = cfg['GOOGLE']
         # How many pages
         self.ui.spin_box_google_pages.setValue(int(google['how_many_pages']))
-        # # User agent
+        # User agent
         if google['user_agent'] == 'desktop':
             self.ui.radio_desktop.setChecked(True)
         else:
             self.ui.radio_mobile.setChecked(True)
-        # # Save google pages
+        # Save google pages
         self.ui.check_google_pages.setChecked(strtobool(google['save_google_pages']))
-        # # Parser
+        # Parser
         if google['parser'] == 'html.parser':
             self.ui.radio_html.setChecked(True)
         else:
             self.ui.radio_lxml.setChecked(True)
+
+        #######################################################################
         # GENERAL SETTINGS
+        #######################################################################
         general = cfg['GENERAL']
         # Search external pages?
         self.ui.check_external.setChecked(strtobool(general['search_external']))
         # Black list links file
         self.ui.label_black_list_file.setText(general['black_list_file'])
-        # self.ui.button_black_list_load
-        # self.ui.button_black_list_open
         # Search contact data?
         self.ui.check_contact_data.setChecked(strtobool(general['search_contact_data']))
         # Type of data
@@ -146,18 +150,25 @@ class UIFunctions(MainWindow):
         self.ui.check_krs.setChecked(strtobool(general['krs']))
 
     def config_update(self, file_name):
+        #######################################################################
         # USER_AGENT
+        #######################################################################
         if self.ui.radio_desktop.isChecked():
             user_agent = 'desktop'
         else:
             user_agent = 'mobile'
 
+        #######################################################################
         # PARSER
+        #######################################################################
         if self.ui.radio_html.isChecked():
             parser = 'html.parser'
         else:
             parser = 'lxml'
 
+        #######################################################################
+        # CONFIG
+        #######################################################################
         config = configparser.ConfigParser()
         config['GOOGLE'] = {
             'how_many_pages': self.ui.spin_box_google_pages.text(),
@@ -178,6 +189,7 @@ class UIFunctions(MainWindow):
             'regon': 'False',
             'krs': 'False',
         }
+        # WRITE CONFIG TO FILE
         with open(file_name, 'w') as cfg_file:
             config.write(cfg_file)
 
@@ -195,4 +207,3 @@ class UIFunctions(MainWindow):
             run.run(phrase)
         else:
             print('You have to insert phrase first')
-        # print(phrase)

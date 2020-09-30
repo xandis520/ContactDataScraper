@@ -1,7 +1,3 @@
-# Blacklista: Tworzenie/dodawanie/usuwanie/sprawdzanie
-# Company_data: Tworzenie/dodawanie/aktualizowanie
-
-
 import pymysql
 
 

@@ -18,11 +18,17 @@ def save_google_pg(pages, file_name):
 
 
 def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages=5):
+    #######################################################################
+    # INITIAL SEARCHING INTERNAL AND EXTERNAL PAGE URLS
+    #######################################################################
+    # GETTING SOUP OF FIRST PAGE
     page = GoogleSearch(phrase)
     soup = page.get_soup(parser=parser, user_agent=user_agent)
 
+    # INITIAL SEARCHING OF NEXT GOOGLE PAGES
     next_pages = page.get_next_pages(soup)
 
+    # GETTING EXTERNAL LINKS OF FIRST GOOGLE PAGE
     external_links_list = []
     external_links = page.get_external_links(soup)
     try:
@@ -32,9 +38,14 @@ def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages
     except:
         print('Some error')
 
+    #######################################################################
+    # SEARCHING EXTERNAL AND INTERNAL LINKS IN "FOR" LOOP
+    #######################################################################
     for page_number in range(2, how_many_pages):
-        # Pętla wyszukuje linki do kolejnych stron w wyszukiwarce i dopisuje je do słownika wyjściowego
         try:
+            #######################################################################
+            # SEARCHING EXTERNAL LINKS IN GOOGLE PAGE
+            #######################################################################
             soup = page.get_soup(url=next_pages[f'Page {page_number}'], parser=parser)
             external_links = page.get_external_links(soup)
             try:
@@ -42,31 +53,22 @@ def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages
                     if link not in external_links_list:
                         external_links_list.append(link)
             except:
-                print('Some error')
+                print('Error')
 
-            next_pages_iter = page.get_next_pages(soup)
-            next_pages.update(next_pages_iter)
+            #######################################################################
+            # SEARCHING INTERNAL (NEXT PAGES) LINKS IN GOOGLE PAGE
+            #######################################################################
+            if page_number >= 10:
+                next_pages_iter = page.get_next_pages(soup)
+                next_pages.update(next_pages_iter)
         except KeyError:
             print(f"Page {page_number} doesn't exist in google search.")
             print(f"Finished program on {page_number-1} pages.")
             break
 
-    # for keys, values in next_pages.items():
-    #     print(keys+':', values)
-
-    # for index, link in enumerate(external_links_list):
-    #     print(str(index+1)+':', link)
-
-    # 1. Funkcja przeszukuje pierwszą podaną stronę i odnajduje wszystkie linki do kolejnych stron. (zapisuje linki w bazie danych lub pliku)
-    # 2. Następnie uruchamia funkcję get_external_links i zapisuje linki w bazie danych
-    # 3. Następnie wchodzi w kolejny link w zwróconym słowniku i znowu odnajduje wszystkie linki do kolejnych stron
-    # 4. (nie dodaje tych już znalezionych wcześniej)
-    # 5. Skrypt ponownie uruchamia funkcję get_external_links i dopisuje do linków w bazie danych
-    # 6. (Skrypt sprawdza, czy linki nie istnieją już w bazie danych oraz, czy nie sę na black_liscie)
-    # 7. Skrypt wraca do punktu 3. do momentu, aż nie znajdzie nowych linków do kolejnych stron google.
-
-    # Skrypt kończy działać, kiedy nie znajdzie już żadnych nowych linków
-    # Zwraca pełną listę linków zapisaną w pliku (tak, aby tylko część linków była zapisana w pamięci podręcznej)
+    #######################################################################
+    # SAVING FOUND LINKS IN DICTIONARY
+    #######################################################################
     links = {
         'internal': next_pages,
         'external': external_links_list,
@@ -75,49 +77,88 @@ def get_all_pages(phrase='', parser='lxml', user_agent='desktop', how_many_pages
 
 
 def traverse_pages(file_name, settings, parser='html.parser', user_agent='desktop'):
+    #######################################################################
+    # CREATING AND WRITING FIRST ROW OF CONTACT DATA FILE
+    #######################################################################
     file_name_contact = file_name[:-18] + 'contact_data.csv'
     with open(file_name_contact, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(['id', 'page_url', 'phone', 'email', 'nip'])
+
+    #######################################################################
+    # TRAVERSING PAGES FROM FILE
+    #######################################################################
+
+    # OPEN FILE WITH PAGES URLS
     with open(file_name, 'r', newline='') as csv_file:
         reader = csv.reader(csv_file)
+
+        #######################################################################
+        # ITERATING THROUGH PAGES URLS
+        #######################################################################
         for row in reader:
-            page = None
-            internal_links_list = None
             try:
+                #######################################################################
+                # GETTING INTERNAL CONTACT URLS
+                #######################################################################
+
+                # GETTING INTERNAL URLS
                 print(f'GETTING INTERNAL CONTACT LINKS OF PAGE: {row[1]}')
                 page = CompanyDataSearch(url=row[1], parser=parser, user_agent=user_agent)
                 internal_links = page.get_internal_links()
+
+                # GETTING CONTACT PAGES URLS
                 contact_pages = []
                 contact_pages = get_contact_pages(internal_links)
+
+                # CHECKING HOW MANY CONTACT URLS WAS FOUND
                 if len(contact_pages) != 0:
                     print(contact_pages)
                     print(f'PROGRAM FOUND {len(contact_pages)} CONTACT PAGES')
                 else:
                     print('PROGRAM COULD NOT FIND INTERNAL CONTACT PAGES')
 
+                # ADDING MAIN PAGE URL TO CONTACT URLS
                 contact_pages.append(row[1])
             except:
                 print(f'PAGE {row[1]} COULD NOT BE SCRAPPED')
 
+            #######################################################################
+            # SEARCHING FOR CONTACT DATA IN CONTACT PAGES URLS
+            #######################################################################
             print('SEARCHING FOR CONTACT DATA')
-            contact_data = dict()
+            contact_data = {
+            "phone": None,
+            "email": None,
+            "street": None,
+            "street_number": None,
+            "apartment": None,
+            "city": None,
+            "postal_code": None,
+            "nip": None,
+            "regon": None
+            }
+
+            # ITERATING THROUGH CONTACT PAGES URLS
             for id, page_url in enumerate(contact_pages):
-                contact_data_iter = get_contact_data(url=page_url, parser=parser, user_agent=user_agent)
+                # SEARCHING CONTACT DATA IN PAGE URL
+                page = ContactData(url=page_url, parser=parser, user_agent=user_agent)
+                contact_data_iter = page.get_contact_data(settings=settings['contact_data'])
                 contact_data.update(contact_data_iter)
             print('CONTACT DATA:')
             print(contact_data)
+
+            # INSERTING FOUND CONTACT DATA TO ROW
             row = [row[0], row[1], contact_data['phone'], contact_data['email'], contact_data['nip']]
+
+            # SAVING ROW IN FILE
             with open(file_name_contact, 'a+', newline='') as csv_contact_file:
                 writer = csv.writer(csv_contact_file)
                 writer.writerow(row)
 
 
-def find_data_in_url():
-    # Skrypt przeszukuje stronę internetową w poszukiwaniu danych o tej stronie
-    pass
-
-
+#######################################################################
+# SEARCH DATA IN KRS DATABASE
+#######################################################################
 def find_data_in_krs():
-    # Skrypt przeszukuje bazę danych krs na podstawie danych zebranych ze strony internetowej
     pass
